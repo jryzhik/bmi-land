@@ -4,15 +4,15 @@ import { Image } from 'astro:assets';
 import { ADVANTAGES } from 'src/consts';
 ---
 
-<section class='py-9 -mx-1.8rem'>
-	<div style={`background-image: url(${BackgroundIMage.src});`} class='px-8 bg-cover bg-no-repeat py-14 w-full rounded-20px'>
-		{
-			ADVANTAGES.map((item, index) => (
-				<a href={item.href} target='_blank' class='flex justify-between h-57px items-center w-full gap-3 py-1 w-full px-3 bg-white/80 rounded-20px backdrop-blur-3xl mb-4.5 last:mb-0'>
-					<Image src={item.icon} alt={item.title} class={`${index === 0 ? 'size-12' : 'size-10'}`} />
-					<p class='flex-auto justify-center text-center sm:text-xl tracking-tighter'>{item.title}</p>
-				</a>
-			))
-		}
-	</div>
+<section class="py-9 -mx-1.8rem">
+  <div style={`background-image: url(${BackgroundIMage.src});`} class="px-8 bg-cover bg-no-repeat py-14 w-full rounded-20px">
+    {
+      ADVANTAGES.map((item, index) => (
+        <a href={item.href} target="_blank" class="flex justify-between h-57px items-center w-full gap-3 py-1 w-full px-3 bg-white/80 rounded-20px backdrop-blur-3xl mb-4.5 last:mb-0">
+          <Image src={item.icon} alt={item.title} class={`${index === 0 ? 'size-12' : 'size-10'}`} />
+          <p class="flex-auto justify-center text-center text-xl tracking-tighter">{item.title}</p>
+        </a>
+      ))
+    }
+  </div>
 </section>
