@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import { DONATE } from '../consts';
+---
+
+<section class='donate py-9' id='donate'>
+	<h2 class='text-center mb-7 text-3xl'>Donate</h2>
+	<div class='embla overflow-visible'>
+		<div class='flex gap-3 items-start'>
+			{
+				DONATE.map(item => (
+					<a href={item.href} target='_blank' class='p-2.5 flex-[0_0_33%] rounded-20px' style={`background: ${item.hex};`}>
+						<div class='mb-1.5'>
+							<Image src={item.image} class='max-w-140px' quality={100} alt={item.title} />
+						</div>
+						<h3 class='text-lg text-center tracking-tighter'>{item.title}</h3>
+					</a>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	import EmblaCarousel from 'embla-carousel';
+
+	const emblaNode = document.querySelector('.embla') as HTMLElement;
+	const options = { loop: false, dragFree: true };
+	const emblaApi = EmblaCarousel(emblaNode, options);
+
+	console.log(emblaApi.slideNodes());
+</script>

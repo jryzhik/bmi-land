@@ -1,0 +1,44 @@
+---
+import { AstroFont } from 'astro-font';
+---
+
+<!doctype html>
+<html lang='en'>
+	<head>
+		<AstroFont
+			config={[
+				{
+					name: 'okomito',
+					src: [
+						{
+							style: 'normal',
+							weight: '400',
+							path: './public/fonts/okomito.ttf',
+						},
+						{
+							style: 'medium',
+							weight: '500',
+							path: './public/fonts/okomito-medium.ttf',
+						},
+					],
+					preload: false,
+					display: 'swap',
+					selector: 'body',
+					fallback: 'sans-serif',
+				},
+			]}
+		/>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width' />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+		<meta name='generator' content={Astro.generator} />
+		<title>Astro Basics</title>
+	</head>
+	<body class='font-sans font-medium min-h-full antialiased'>
+		<div class='overflow-x-clip'>
+			<main class='container pb-10'>
+				<slot />
+			</main>
+		</div>
+	</body>
+</html>

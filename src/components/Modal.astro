@@ -1,0 +1,154 @@
+---
+import Email from '@/icons/email.svg';
+import Phone from '@/icons/phone.svg';
+import Map from '@/icons/map.svg';
+import Clock from '@/icons/clock.svg';
+import Linktree from '@/icons/linktree.svg';
+import { Image } from 'astro:assets';
+const contacts = [
+  {
+    Icon: Email,
+    label: 'Andrew@byelorussianmission.org',
+    href: 'mailto:Andrew@byelorussianmission.org',
+  },
+  {
+    Icon: Phone,
+    label: '7703563592',
+    href: 'tel:7703563592',
+  },
+  {
+    Icon: Map,
+    label: '3395 Chamblee Gap Rd, Cumming, Georgia, United States, 30040',
+    href: 'https://www.google.com/maps/search/?api=1&query=3395%20Chamblee%20Gap%20Rd%20Cumming%20Georgia%20United%20States%2030040',
+  },
+  {
+    Icon: Clock,
+    label: 'byelorussianmission.org',
+    href: 'https://byelorussianmission.org',
+  },
+  {
+    Icon: Linktree,
+    label: 'linktr.ee/Belarusmission',
+    href: 'https://linktr.ee/Belarusmission',
+  },
+];
+---
+
+<div id="openModal" class="cursor-pointer mt-auto mx-auto w-149px py-3 mb-5 bg-white/80 rounded-20px backdrop-blur-3xl grid place-items-center">
+  <h2 class="text-30px mb-0.3 tracking-tighter">Contact</h2>
+  <Image class="size-43px" src={import('@/assets/contacts.png')} alt="contact" quality={100} />
+</div>
+
+<dialog id="myModal" class="fixed z-50 backdrop:bg-black/50
+     max-w-375px w-full
+     p-6 rounded-lg
+     bg-white
+     shadow-xl
+     transition-all">
+  <div class="flex justify-between items-center">
+    <h2 class="flex-auto text-center text-xl">Contact</h2>
+    <button id="closeModal" class="text-gray-600 hover:text-gray-900"> ✕ </button>
+  </div>
+  <div class="pt-5">
+    <div class="flex flex-col items-center gap-3">
+      <h2 class="text-xl">Andrew Ryzhkov</h2>
+      <h3 class="text-xl">President · Belarus Mission</h3>
+    </div>
+    <div class="mt-6 space-y-2">
+      {
+        contacts.map(({ Icon, label, href }) => (
+          <a href={href} class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition-colors" target="_blank" rel="noopener noreferrer">
+            <Icon class="w-6 h-6" />
+            <span>{label}</span>
+          </a>
+        ))
+      }
+    </div>
+    <div class="mt-6 flex justify-center">
+      <button id="downloadVcf" class="px-4 py-2 rounded-full border-2 hover:bg-gray-100 transition-colors flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+        Save Contact
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const modal = document.querySelector('#myModal') as HTMLDialogElement;
+  const openButton = document.querySelector('#openModal');
+  const closeButton = document.querySelector('#closeModal');
+  const downloadButton = document.querySelector('#downloadVcf');
+
+  openButton?.addEventListener('click', () => {
+    modal?.showModal();
+  });
+
+  closeButton?.addEventListener('click', () => {
+    modal?.close();
+  });
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.close();
+    }
+  });
+
+  function generateVCard() {
+    const vcard = [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      `FN:Andrew Ryzhkov`,
+      `N:Ryzhkov;Andrew;;;`,
+      `TITLE:President · Belarus Mission`,
+      `EMAIL:Andrew@byelorussianmission.org`,
+      `TEL:7703563592`,
+      `ADR:;;3395 Chamblee Gap Rd;Cumming;Georgia;30040;United States`,
+      `URL:https://byelorussianmission.org`,
+      `URL:https://linktr.ee/Belarusmission`,
+      'END:VCARD',
+    ].join('\n');
+
+    const blob = new Blob([vcard], { type: 'text/vcard' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'andrew_ryzhkov.vcf';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  downloadButton?.addEventListener('click', generateVCard);
+</script>
+
+<style is:global>
+  dialog {
+    transition:
+      display 0.3s allow-discrete,
+      overlay 0.3s allow-discrete;
+
+    animation: close 0.3s forwards;
+    &[open] {
+      animation: open 0.3s forwards;
+    }
+  }
+
+  @keyframes open {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes close {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+</style>
